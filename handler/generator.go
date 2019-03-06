@@ -6,16 +6,23 @@ import (
     "net/http"
     "io/ioutil"
     "strings"
+    "math/rand"
+    "time"
 
     "github.com/labstack/echo"
 )
 
 func Default(c echo.Context) (err error) {
     head, tail := GetDataset()
-    fmt.Fprintln(os.Stderr, head)
-    fmt.Fprintln(os.Stderr, head[0])
-    fmt.Fprintln(os.Stderr, tail)
-    return c.String(http.StatusOK, "Hello, World!")
+
+    rand.Seed(time.Now().UnixNano())
+
+    head_idx := rand.Intn(len(head))
+    tail_idx := rand.Intn(len(tail))
+
+    result := head[head_idx] + tail[tail_idx]
+
+    return c.String(http.StatusOK, result)
 }
 
 func GetDataset() ([]string, []string){
