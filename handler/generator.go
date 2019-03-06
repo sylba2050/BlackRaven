@@ -38,8 +38,9 @@ func GetDataset() ([]string, []string){
         return nil,nil
     }
 
-    head_spl := strings.Split(string(head), "\n")
-    tail_spl := strings.Split(string(tail), "\n")
+    head_res := strings.Split(strings.TrimRight(string(head), "\n"), "\n")
 
-    return head_spl, tail_spl
+    tail_res := strings.Split(strings.TrimRight(string(tail), "\n"), "\n")
+
+    return head_res, tail_res
 }
