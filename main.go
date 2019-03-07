@@ -28,6 +28,7 @@ func main() {
     db.AutoMigrate(&MsTNDB.Under{})
 
     e.GET("api/default", generator.Default(db))
+    e.GET("api/json", generator.JSON(db))
     e.POST("api/create/top", generator.InsertTop(db))
     e.POST("api/create/under", generator.InsertUnder(db))
 

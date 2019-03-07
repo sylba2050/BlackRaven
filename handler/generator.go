@@ -25,6 +25,20 @@ func Default(db *gorm.DB) echo.HandlerFunc {
     }
 }
 
+func JSON(db *gorm.DB) echo.HandlerFunc {
+    return func(c echo.Context) error {
+        var top MsTNDB.Top
+        db.Raw("SELECT * FROM tops ORDER BY RANDOM() LIMIT 1").Scan(&top)
+
+        var under MsTNDB.Under
+        db.Raw("SELECT * FROM unders ORDER BY RANDOM() LIMIT 1").Scan(&under)
+
+        result := map[string]string{"data": top.Data + under.Data}
+
+        return c.JSON(http.StatusOK, result)
+    }
+}
+
 func InsertTop(db *gorm.DB) echo.HandlerFunc {
     return func(c echo.Context) (err error) {
         t := new(MsTNDB.Top)
