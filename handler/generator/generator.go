@@ -1,7 +1,7 @@
 package generator
 
 import (
-    "../struct"
+    "../../struct"
 
     "net/http"
 

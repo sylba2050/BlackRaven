@@ -1,7 +1,8 @@
 package main
 
 import (
-    "./handler"
+    "./handler/admin"
+    "./handler/generator"
     "./struct"
 
     "github.com/labstack/echo"
@@ -40,6 +41,9 @@ func main() {
     e.GET("api/json", generator.JSON(db))
     e.POST("api/create/top", generator.InsertTop(db_tmp))
     e.POST("api/create/under", generator.InsertUnder(db_tmp))
+
+    e.POST("api/create/top/admin", admin.InsertTop(db))
+    e.POST("api/create/under/admin", admin.InsertUnder(db))
 
     e.Start(":1417")
 }
