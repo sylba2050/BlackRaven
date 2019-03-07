@@ -5,7 +5,8 @@ BlackRaven is simple Golang server for generate CHUUNI word.
 ## demo
 ### server start
 ```bash
-$ env PASSWORD=YOUR_PASSWORD go run .
+$ go build .
+$ env PASSWORD=YOUR_PASSWORD ./BlackRaven
 ```
 
 ### get string response
