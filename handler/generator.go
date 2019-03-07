@@ -25,10 +25,27 @@ func Default(db *gorm.DB) echo.HandlerFunc {
     }
 }
 
-func Create(db *gorm.DB) echo.HandlerFunc {
-    return func(c echo.Context) error {
-        data := MsTNDB.Top{Data: "hoge"}
-        db.Create(&data);
+func InsertTop(db *gorm.DB) echo.HandlerFunc {
+    return func(c echo.Context) (err error) {
+        t := new(MsTNDB.Top)
+        if err = c.Bind(t); err != nil {
+            return err
+        }
+
+        db.Create(&t)
+
+        return c.String(http.StatusOK, "ok")
+    }
+}
+
+func InsertUnder(db *gorm.DB) echo.HandlerFunc {
+    return func(c echo.Context) (err error) {
+        u := new(MsTNDB.Under)
+        if err = c.Bind(u); err != nil {
+            return err
+        }
+
+        db.Create(&u)
 
         return c.String(http.StatusOK, "ok")
     }

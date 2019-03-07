@@ -7,10 +7,10 @@ import (
 
 type Top struct {
     gorm.Model
-    Data string
+    Data string `json:"data" form:"data" query:"data"`
 }
 
 type Under struct {
     gorm.Model
-    Data string
+    Data string `json:"data" form:"data" query:"data"`
 }
