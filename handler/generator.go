@@ -1,46 +1,37 @@
 package generator
 
 import (
+    "../struct"
+
     "os"
     "fmt"
     "net/http"
-    "io/ioutil"
-    "strings"
-    "math/rand"
-    "time"
 
     "github.com/labstack/echo"
+
+    "github.com/jinzhu/gorm"
+    _ "github.com/mattn/go-sqlite3"
 )
 
-func Default(c echo.Context) (err error) {
-    head, tail := GetDataset()
+func Default(db *gorm.DB) echo.HandlerFunc {
+    return func(c echo.Context) error {
+        var top db_tables.Top
+        db.Raw("SELECT * FROM tops ORDER BY RANDOM() LIMIT 1").Scan(&top)
 
-    rand.Seed(time.Now().UnixNano())
+        var under db_tables.Under
+        db.Raw("SELECT * FROM unders ORDER BY RANDOM() LIMIT 1").Scan(&under)
 
-    head_idx := rand.Intn(len(head))
-    tail_idx := rand.Intn(len(tail))
+        result := top.Data + under.Data
 
-    result := head[head_idx] + tail[tail_idx]
-
-    return c.String(http.StatusOK, result)
+        return c.String(http.StatusOK, result)
+    }
 }
 
-func GetDataset() ([]string, []string){
-    head, err := ioutil.ReadFile("dataset/head.txt")
-    if err != nil {
-        fmt.Fprintln(os.Stderr, err)
-        return nil,nil
+func Create(db *gorm.DB, new_data string) echo.HandlerFunc {
+    return func(c echo.Context) error {
+        data := db_tables.Top{Data: "hoge"}
+        db.Create(&data);
+
+        return c.String(http.StatusOK, "ok")
     }
-
-    tail, err := ioutil.ReadFile("dataset/tail.txt")
-    if err != nil {
-        fmt.Fprintln(os.Stderr, err)
-        return nil,nil
-    }
-
-    head_res := strings.Split(strings.TrimRight(string(head), "\n"), "\n")
-
-    tail_res := strings.Split(strings.TrimRight(string(tail), "\n"), "\n")
-
-    return head_res, tail_res
 }
