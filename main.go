@@ -28,7 +28,7 @@ func main() {
     db.AutoMigrate(&MsTNDB.Top{})
     db.AutoMigrate(&MsTNDB.Under{})
 
-    db_tmp, err := gorm.Open("sqlite3", "DB/temp.sqlite3")
+    db_tmp, err := gorm.Open("sqlite3", "DB/tmp.sqlite3")
     if err != nil {
         panic("failed to connect database")
     }
