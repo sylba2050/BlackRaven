@@ -24,8 +24,8 @@ func main() {
     }
     defer db.Close()
 
-    db.AutoMigrate(&db_tables.Top{})
-    db.AutoMigrate(&db_tables.Under{})
+    db.AutoMigrate(&MsTNDB.Top{})
+    db.AutoMigrate(&MsTNDB.Under{})
 
     e.GET("api/default", generator.Default(db))
 
